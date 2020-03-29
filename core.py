@@ -2,7 +2,7 @@
 #
 # @author: Isaac Caswell
 # @date: 3/3/2017
-# 
+#
 # Core functionality for fragmenting, encrypting and interleaving messages.
 # This is specifically intended for encrypting one-use messages. Do not use it for passwords, etc.
 #

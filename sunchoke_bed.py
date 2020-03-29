@@ -66,7 +66,7 @@ if args.mode == 'encrypt':
         f.write(ciphertext)
 
 elif args.mode == 'decrypt':
-    with open(args.encrypted_file, 'r') as f:
+    with open(args.encrypted_file, 'rb') as f:
         ciphertext = f.read()
     plaintext = decrypt_message(args.password, ciphertext)
     print(plaintext)

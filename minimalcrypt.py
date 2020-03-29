@@ -1,14 +1,14 @@
 # minimalcrypt.py
 # @author: Isaac Caswell, though mainly copypasta from simplecrypt
 # @date: 3/3/2017
-# 
+#
 # This is specifically intended for encrypting one-use messages. Do not use it for passwords, etc.
 #
 # Notes:
 # -data can be corrupted and only certain segments will be lost. No warning is given for corrupted data.
 # -no nonce is used: be careful of replay attacks (or include a date in your message!)
 # -no salt: This module is not used for storing passwords. If you want to store passwords (or do
-#  something else that is vulnerable to a rainbow table attack), plese do not use this module.
+#  something else that is vulnerable to a rainbow table attack), please do not use this module.
 
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256, HMAC
@@ -19,7 +19,7 @@ from Crypto.Random.random import getrandbits
 SALT = '-'*256 # essentially unused, but required by the algorithm.
 # EXPANSION_COUNT:number of hashes for key expansion. Larger the number, more time ti takes to encrypt/decrypt.
 # Increase this number to make brute-force attacks harder to carry out on you.
-EXPANSION_COUNT = 10 
+EXPANSION_COUNT = 10
 AES_KEY_LEN = 256
 HASH = SHA256
 
@@ -83,9 +83,11 @@ def random_bytes(n):
 #===============================================================================
 # PRIVATE
 
+class DecryptionException(Exception): pass
+
 def _pbkdf2(password, salt, n_bytes, count):
     # the form of the prf below is taken from the code for PBKDF2
-    return PBKDF2(password, salt, dkLen=n_bytes,
+    return PBKDF2(password, salt.encode(), dkLen=n_bytes,
                   count=count, prf=lambda p,s: HMAC.new(p,s,HASH).digest())
 
 def _str_to_bytes(data):
