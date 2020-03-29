@@ -49,7 +49,7 @@ if args.mode == 'encrypt':
     # check to make passwords are long enough
     for key in messages:
         if key and len(key) < 8: # note that the empty key corresponds to the chaff message
-            print "WARNING: password '%s' too short!"%key
+            print("WARNING: password '%s' too short!"%key)
 
     #-------------------------------------------------------------------------------
     # check to make sure that the header size is appropriate
@@ -57,8 +57,8 @@ if args.mode == 'encrypt':
     prob_header_randomly_occurs = lambda n, k: 1 - (1- ((9.0/256)*(256**-k)))**(n/16 - k)
     p = prob_header_randomly_occurs(len(ciphertext), len(HEADER_PREFIX))
     if p > 1e-3:
-        print "WARNING: there is a probability of %s that there will be some corruption of your data."%p + \
-            "  Please try decrypting your message to make sure it works."
+        print("WARNING: there is a probability of %s that there will be some corruption of your data."%p + \
+            "  Please try decrypting your message to make sure it works.")
 
     #-------------------------------------------------------------------------------
     # write data
@@ -69,7 +69,7 @@ elif args.mode == 'decrypt':
     with open(args.encrypted_file, 'r') as f:
         ciphertext = f.read()
     plaintext = decrypt_message(args.password, ciphertext)
-    print plaintext
+    print(plaintext)
 
 else:
     raise ValueError("inexplicable error")

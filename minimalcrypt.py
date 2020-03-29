@@ -24,8 +24,8 @@ AES_KEY_LEN = 256
 HASH = SHA256
 
 if EXPANSION_COUNT < 10*1000:
-    print "WARNING: you are using an EXPANSION_COUNT of %s, meaning that this message is susceptible"%EXPANSION_COUNT + \
-    " to brute-force attacks. If you fear such an attack, please open minimalcrypt.py and increase it.\n"
+    print("WARNING: you are using an EXPANSION_COUNT of %s, meaning that this message is susceptible"%EXPANSION_COUNT + \
+    " to brute-force attacks. If you fear such an attack, please open minimalcrypt.py and increase it.\n")
 
 
 #===============================================================================

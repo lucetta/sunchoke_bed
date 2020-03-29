@@ -12,6 +12,7 @@ import string
 
 from minimalcrypt import _str_to_bytes, random_bytes
 from header_prefix import HEADER_PREFIX
+from functools import reduce
 
 
 PAD_TOKEN = ' '
@@ -38,7 +39,7 @@ def interleave_messages(encrypted_and_fragmented_messages, size_constraint):
 
     #-------------------------------------------------------------------------------
     # this is done in an annoying way...
-    messages = encrypted_and_fragmented_messages.values()
+    messages = list(encrypted_and_fragmented_messages.values())
     # Get the indices of which message goes where:
     msg_idx = [msg_i for msg_i, frags in enumerate(messages) for _, frag in enumerate(frags)]
     permuted_msg_idx = random.sample(msg_idx, len(msg_idx))
@@ -62,7 +63,7 @@ def _add_chaff(encrypted_and_fragmented_messages, size_constraint):
     value for it was chosen in this function.
     """
     _fragments_len = lambda frags: sum([len(msg) for msg in frags])
-    len_so_far = sum([_fragments_len(frags) for frags in encrypted_and_fragmented_messages.values()])
+    len_so_far = sum([_fragments_len(frags) for frags in list(encrypted_and_fragmented_messages.values())])
     if size_constraint is not None and size_constraint < len_so_far:
         raise ValueError("size_constraint less than size of encrypted messages (got %s)"%size_constraint)
     if size_constraint is None:
@@ -83,7 +84,7 @@ def _add_chaff(encrypted_and_fragmented_messages, size_constraint):
 
     
 def _convert_messages_to_bytes(keys_and_messages):
-    for key, message in keys_and_messages.iteritems():
+    for key, message in keys_and_messages.items():
         keys_and_messages[key] = _str_to_bytes(message)
 
 def _pad(message):
@@ -153,15 +154,15 @@ def _fragment_messages(keys_and_messages, omit_header=False):
     Breaks each value in `keys_and_messages`, which was previously a string, into a list of fragments.
     Modifies the object `keys_and_messages`
     """
-    for key, message in keys_and_messages.iteritems():
+    for key, message in keys_and_messages.items():
         keys_and_messages[key] = _fragment_message(message, omit_header)
 
 
 
 if __name__=="__main__":
-    print "for your enjoyment, some basic tests:"
-    print len(HEADER_PREFIX)
+    print("for your enjoyment, some basic tests:")
+    print(len(HEADER_PREFIX))
     for message in ['hi', 'qwertyuiop', 'qwertyuiop'*12]:
-        print message
-        print _fragment_message(message, omit_header=False)
-        print
+        print(message)
+        print(_fragment_message(message, omit_header=False))
+        print()

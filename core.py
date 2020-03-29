@@ -20,7 +20,7 @@ from fragment import prep_and_fragment_messages, interleave_messages
 from defragment import defragment
 
 def encrypt_fragmented_messages(keys_and_messages):
-    for key, fragmented_message in keys_and_messages.iteritems():
+    for key, fragmented_message in keys_and_messages.items():
         encrypted_comma_fragmented_message = []
         for i, frag in enumerate(fragmented_message):
             encrypted_comma_fragmented_message = encrypt(key, frag)
@@ -55,7 +55,7 @@ def decrypt_message(key, message):
 
 
 if __name__=="__main__":
-    print "running some simple tests to show this works!"
+    print("running some simple tests to show this works!")
 
     keys_and_messages = {
         'Emma': 'She brought new tea here and I like her!',
@@ -63,6 +63,6 @@ if __name__=="__main__":
     }
 
     cyphertext = str(encrypt_all_messages(keys_and_messages))
-    print decrypt_message('Emma', cyphertext)
-    print decrypt_message('Medb', cyphertext)
+    print(decrypt_message('Emma', cyphertext))
+    print(decrypt_message('Medb', cyphertext))
 
